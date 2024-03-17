@@ -1,12 +1,13 @@
 import { db } from "../services/config";
 import { collection, addDoc } from "firebase/firestore";
+import { NewUserProps } from "../types/UserProps";
 
-const useCreateAccount = async ({name, password, partnerID}: NewUserProps) => {
+const useCreateAccount = async ({name, password, partnerId}: NewUserProps) => {
   try {
     const docRef = await addDoc(collection(db, "users"), {
       name,
       password,
-      partnerID,
+      partnerId,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {

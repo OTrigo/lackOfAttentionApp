@@ -1,24 +1,28 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Button, TextInput, SafeAreaView } from "react-native";
 import { styles } from "./styles";
-import { useContext, useEffect, useState } from "react";
 import useGetUser from "../../hooks/useGetUser";
-import UserContext from "../../contexts/UserContext";
+import { UserSessionProps } from "../../types/UserProps";
 
-export default function SignIn({ navigation }) {
-  const { user, setUser } = useContext(UserContext);
-  const [username, onChangeUsername] = useState("");
-  const [password, onChangePassword] = useState("");
+export default function SignIn({ setUser, setLogin }: any) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const getUser = async (name: string, password: string) => {
-    const teste = await useGetUser({ name, password });
-    if (teste?.loggedIn) {
-      setUser(teste);
-      navigation.navigate("Home");
+  const getUserInfo = async () => {
+    try {
+      return await useGetUser({ name: username, password });
+    } catch (error) {
+      console.error("Error signing in:", error);
     }
   };
 
-  console.log("User", user);
+  const handleLogin = async () => {
+    await getUserInfo().then((value?: UserSessionProps) => {
+      setLogin(value?.loggedIn);
+      setUser(value);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -26,20 +30,19 @@ export default function SignIn({ navigation }) {
       <SafeAreaView>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeUsername}
+          onChangeText={setUsername}
           value={username}
           placeholder="Username"
         />
         <TextInput
-          textContentType="password"
           style={styles.input}
-          onChangeText={onChangePassword}
+          onChangeText={setPassword}
           value={password}
           placeholder="Password"
-          keyboardType="numeric"
+          secureTextEntry
         />
+        <Button title="Sign In" onPress={handleLogin} />
       </SafeAreaView>
-      <Button title="Login" onPress={() => getUser(username, password)} />
     </View>
   );
 }

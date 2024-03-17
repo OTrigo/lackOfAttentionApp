@@ -13,7 +13,6 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig)
 const Firebase = initializeApp(firebaseConfig);
 const analytics = getAnalytics(Firebase);
 

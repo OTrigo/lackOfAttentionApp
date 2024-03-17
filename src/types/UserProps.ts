@@ -1,6 +1,6 @@
 export interface UserProps {
   name: string;
-  partnerId: string;
+  partnerId?: string;
 }
 
 export interface UserSessionProps extends UserProps {
@@ -12,7 +12,16 @@ export interface UserAuthenticationProps {
   password: String;
 }
 
-export interface UserContextType {
-  user: UserSessionProps;
-  setUser: React.Dispatch<React.SetStateAction<UserSessionProps>>;
+export interface NewUserProps extends UserProps {
+  password: String;
+}
+
+export interface UserContextType{
+  userState: any
+  setUserState: any
+}
+
+export interface SignInProps{
+  setUser: React.Dispatch<React.SetStateAction<UserSessionProps>>
+  setLogin: React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -16,7 +16,6 @@ const useGetUser = async ({ name, password }: UserAuthenticationProps) => {
 
     querySnapshot.forEach((doc) => {
       const user = doc?.data();
-      console.log("Documento encontrado:", user);
       result.name = user?.name;
       result.partnerId = user?.partnerId ?? "";
       result.loggedIn = true;
